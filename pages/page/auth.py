@@ -69,4 +69,7 @@ class Auth:
 
     @log_decorator
     def logout(self):
-        pass
+        query = 'UPDATE users SET IS_LOGIN=FALSE;'
+        with self.__database as db:
+            db.execute(query)
+            return True
