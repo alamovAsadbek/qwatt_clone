@@ -14,7 +14,7 @@ def auth_menu():
         database = Database()
         user_input: int = int(input("Choose menu: "))
         if user_input == 1:
-            database.create_database()
+            pass
         elif user_input == 2:
             pass
         elif user_input == 3:
