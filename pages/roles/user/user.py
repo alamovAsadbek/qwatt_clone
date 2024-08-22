@@ -80,3 +80,6 @@ class User:
     @log_decorator
     def my_inactive_rent(self):
         pass
+    @log_decorator
+    def return_rent(self):
+        pass
