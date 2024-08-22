@@ -48,18 +48,25 @@ def user_menu():
         user = User()
         user_input: int = int(input("Choose menu: "))
         if user_input == 1:
+            print('\nHOME -> BICYCLE RENTAL\n')
             user.rent_bicycle()
             user_menu()
         elif user_input == 2:
+            print('\nHOME -> POWER BANK RENTAL\n')
             pass
         elif user_input == 3:
+            print('\nHOME -> MY ACTIVE RENTS\n')
             pass
         elif user_input == 4:
+            print('\nHOME -> MY INACTIVE RENTS\n')
             pass
         elif user_input == 5:
+            print('\nHOME -> PROFILE\n')
             pass
         elif user_input == 6:
-            pass
+            auth.logout()
+            print("Logged out")
+            auth_menu()
 
     except Exception as e:
         print(f'Error: {e}')

@@ -9,7 +9,7 @@ from main_files.decorator.decorator_func import log_decorator
 class User:
     def __init__(self):
         self.__database = Database()
-        self.__date_now = datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+        self.__date_now = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
 
     @log_decorator
     def rent_products(self, product_name: str):
@@ -31,7 +31,7 @@ class User:
         PRODUCT_ID SERIAL UNIQUE,
         USER_EMAIL VARCHAR(255) NOT NULL,
         RENT_PRODUCT VARCHAR(255) NOT NULL,
-        RENT_TIME DATE DEFAULT CURRENT_TIMESTAMP,
+        RENT_TIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         STATUS BOOLEAN NOT NULL DEFAULT FALSE
         );
         ''')
