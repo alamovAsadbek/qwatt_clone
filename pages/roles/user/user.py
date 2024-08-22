@@ -48,4 +48,6 @@ class User:
 
     @log_decorator
     def rent_power_bank(self):
-        pass
+        self.rent_products(product_name='power_bank')
+        print(f"You rented a power bank at {self.__date_now}")
+        return True

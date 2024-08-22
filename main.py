@@ -53,7 +53,8 @@ def user_menu():
             user_menu()
         elif user_input == 2:
             print('\nHOME -> POWER BANK RENTAL\n')
-            pass
+            user.rent_power_bank()
+            user_menu()
         elif user_input == 3:
             print('\nHOME -> MY ACTIVE RENTS\n')
             pass
