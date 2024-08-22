@@ -1,5 +1,5 @@
-from main_files.database.db_setting import Database
 from main_files.decorator.decorator_func import log_decorator
+from pages.page.auth import Auth
 
 
 @log_decorator
@@ -11,10 +11,10 @@ def auth_menu():
     '''
     print(text)
     try:
-        database = Database()
+        auth = Auth()
         user_input: int = int(input("Choose menu: "))
         if user_input == 1:
-            pass
+            auth.register()
         elif user_input == 2:
             pass
         elif user_input == 3:
@@ -29,7 +29,33 @@ def auth_menu():
 
 @log_decorator
 def user_menu():
-    pass
+    text = '''
+1. Bicycle rental
+2. Power bank rental
+3. My active rents
+4. My inactive rents
+5. Profile
+6. Logout
+    '''
+    print(text)
+    try:
+        user_input: int = int(input("Choose menu: "))
+        if user_input == 1:
+            pass
+        elif user_input == 2:
+            pass
+        elif user_input == 3:
+            pass
+        elif user_input == 4:
+            pass
+        elif user_input == 5:
+            pass
+        elif user_input == 6:
+            pass
+
+    except Exception as e:
+        print(f'Error: {e}')
+        user_menu()
 
 
 if __name__ == '__main__':
