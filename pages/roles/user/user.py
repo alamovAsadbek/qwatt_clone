@@ -69,10 +69,14 @@ class User:
             print(f"You have no rent yet")
             return True
         for product in all_product:
-            data = (f"Rent Product: {product['rent_product']}\n"
+            data = (f"Rent ID: {product['id']}\nRent Product: {product['rent_product']}\n"
                     f"Rent Time: {product['rent_time'].strftime('%Y-%m-%d %H:%M:%S')}\n"
                     f"Status: {'Inactive' if product['status'] else 'Active'}\n"
                     )
             print(data)
 
         return True
+
+    @log_decorator
+    def my_inactive_rent(self):
+        pass
