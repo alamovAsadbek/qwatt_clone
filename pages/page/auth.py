@@ -23,6 +23,7 @@ class Auth:
             params = (True, email)
             with self.__database as db:
                 db.execute(query, params)
+                print('Login successful')
                 return True
         return False
 
