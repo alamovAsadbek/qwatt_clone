@@ -1,6 +1,8 @@
 import datetime
 import hashlib
 
+from psycopg2 import sql
+
 from main_files.database.db_setting import Database, execute_query
 from main_files.decorator.decorator_func import log_decorator
 
@@ -16,8 +18,8 @@ class Auth:
 
     @log_decorator
     def register(self):
-        query = 'SELECT * FROM users'
-        print(execute_query(query))
+        query = sql.SQL("SELECT * FROM {}").format(sql.Identifier('users'))
+        print(execute_query(query, fetch='all'))
         print("Table created successfully")
         first_name: str = input("First Name: ")
         last_name: str = input("Last Name: ")

@@ -12,8 +12,7 @@ class Database:
 
     def __enter__(self):
         try:
-            conn_params = config()
-            self.connection = psycopg2.connect(config())
+            self.connection = psycopg2.connect(**config())
             self.cursor = self.connection.cursor(cursor_factory=DictCursor)
             return self
         except Exception as e:

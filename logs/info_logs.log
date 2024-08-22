@@ -1,0 +1,17 @@
+08/22/2024 20:39:28 - main_files.decorator.decorator_func - ERROR - Function fetchall: ОШИБКА:  отношение "users" не существует
+LINE 1: SELECT * FROM "users"
+                      ^
+Traceback (most recent call last):
+  File "D:\Code\NAJOT TALIM\HOMEWORK\Lesson44\pythonProject\main_files\decorator\decorator_func.py", line 21, in wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Code\NAJOT TALIM\HOMEWORK\Lesson44\pythonProject\main_files\database\db_setting.py", line 43, in fetchall
+    self.cursor.execute(query, params)
+  File "D:\Code\NAJOT TALIM\HOMEWORK\Lesson44\pythonProject\.venv\Lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: ОШИБКА:  отношение "users" не существует
+LINE 1: SELECT * FROM "users"
+                      ^
+
+08/22/2024 20:39:28 - main_files.decorator.decorator_func - INFO - Function execute_query: args: (Composed([SQL('SELECT * FROM '), Identifier('users')]),) kwargs: {'fetch': 'all'}, result: None executed successfully.
