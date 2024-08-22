@@ -1,12 +1,16 @@
 from psycopg2 import sql
 
-from main_files.database.db_setting import Database
+from main_files.database.db_setting import Database, get_active_user
 from main_files.decorator.decorator_func import log_decorator
 
 
 class User:
     def __init__(self):
         self.__database = Database()
+
+    @log_decorator
+    def rent_products(self, product_name: str):
+        pass
 
     @log_decorator
     def create_rent_table(self):
@@ -28,4 +32,16 @@ class User:
     @log_decorator
     def rent_bicycle(self):
         self.create_rent_table()
-
+        active_user = get_active_user()
+        query = sql.SQL('''
+        INSERT INTO RENTALS(
+        USER_EMAIL {user_email},
+        RENT_PRODUCT {product_name}
+        );
+        ''').format(
+            user_email=active_user['email'],
+            product_name=sql.Identifier('bicycle')
+        )
+        with self.__database as cursor:
+            cursor.execute(query)
+        return True

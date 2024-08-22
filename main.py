@@ -48,7 +48,7 @@ def user_menu():
         user = User()
         user_input: int = int(input("Choose menu: "))
         if user_input == 1:
-            user.create_rent_table()
+            user.rent_bicycle()
             user_menu()
         elif user_input == 2:
             pass
