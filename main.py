@@ -11,7 +11,6 @@ def auth_menu():
     '''
     print(text)
     try:
-        auth = Auth()
         user_input: int = int(input("Choose menu: "))
         if user_input == 1:
             auth.register()
@@ -65,4 +64,6 @@ def user_menu():
 
 
 if __name__ == '__main__':
+    auth = Auth()
+    auth.logout()
     auth_menu()
