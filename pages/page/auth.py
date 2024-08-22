@@ -6,3 +6,6 @@ class Auth:
     def login(self):
         pass
 
+    @log_decorator
+    def register(self):
+        pass
