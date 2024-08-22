@@ -13,10 +13,6 @@ class User:
         self.create_rent_table()
 
     @log_decorator
-    def get_data(self, query, params=None):
-        pass
-
-    @log_decorator
     def rent_products(self, product_name: str, price: int):
         """
                 Inserts a new record into the RENTALS table to rent a product.
@@ -110,7 +106,7 @@ class User:
         query = '''
                 SELECT * FROM RENTALS
                 WHERE USER_EMAIL = %s and STATUS = %s;
-                '''
+        '''
         params = (active_user['email'], True)
         all_product = execute_query(query, params, fetch='all')
         if not all_product:
@@ -130,8 +126,36 @@ class User:
                 Allows the user to return a rented product by entering the rental ID.
                 This method currently only displays active rentals and prompts for a rental ID.
         """
+        active_user = get_active_user()
         self.my_active_rent()
         rent_id: int = int(input("Enter rent ID: "))
+        query = '''
+        SELECT * FROM RENTALS
+        WHERE ID = %s AND USER_EMAIL = %s AND STATUS = FALSE;
+        '''
+        params = (rent_id, active_user['email'])
+        select_product = execute_query(query, params, fetch='one')
+        if not select_product:
+            print("Error choose rent ID")
+            return True
+        rent_time = select_product['rent_time']
+        if isinstance(rent_time, str):
+            rent_time = datetime.strptime(rent_time, '%Y-%m-%d %H:%M:%S.%f')
+        current_time = datetime.now()  # Get the current time
+        work_time = current_time - rent_time  # Calculate the duration
+        minutes_rented = work_time.total_seconds() / 60  # Convert duration to minutes
+        minutes_rented = round(minutes_rented)
+        price = minutes_rented * select_product['price']
+        data = (f"Rent ID: {select_product['id']}\nRent Product: {select_product['rent_product']}\n"
+                f"Rental time: {minutes_rented} minutes\nRent money: {price} uzs\n"
+                f"Rent Time: {select_product['rent_time'].strftime('%Y-%m-%d %H:%M:%S')} \n"
+                f"Status: {'Inactive' if select_product['status'] else 'Active'}\n"
+                )
+        print(data)
+        card_number = int(input("Enter card number: ").strip())
+        print(f'{price} uzs were paid from the {card_number} plastic card')
+
+        return True
 
     @log_decorator
     def profile(self):
