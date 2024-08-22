@@ -67,4 +67,5 @@ def execute_query(query, params=None, fetch=None):
 
 @log_decorator
 def get_active_user():
-    pass
+    query = '''SELECT * FROM users WHERE is_active=TRUE'''
+    return execute_query(query, fetch='one')
