@@ -57,7 +57,8 @@ def user_menu():
             user_menu()
         elif user_input == 3:
             print('\nHOME -> MY ACTIVE RENTS\n')
-            pass
+            user.my_active_rent()
+            user_menu()
         elif user_input == 4:
             print('\nHOME -> MY INACTIVE RENTS\n')
             pass

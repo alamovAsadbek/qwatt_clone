@@ -2,7 +2,7 @@ from datetime import datetime
 
 from psycopg2 import sql
 
-from main_files.database.db_setting import Database, get_active_user
+from main_files.database.db_setting import Database, get_active_user, execute_query
 from main_files.decorator.decorator_func import log_decorator
 
 
@@ -54,4 +54,11 @@ class User:
 
     @log_decorator
     def my_active_rent(self):
-        pass
+        active_user = get_active_user()
+        query = '''
+        SELECT * FROM RENTALS
+        WHERE USER_EMAIL = %s and STATUS = %s;
+        '''
+        params = (active_user['email'], False)
+        all_product = execute_query(query, params, fetch='all')
+        print(all_product)
