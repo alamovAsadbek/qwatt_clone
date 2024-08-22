@@ -166,4 +166,11 @@ class User:
                 Displays or manages user profile information.
                 This method is currently a placeholder and does not perform any actions.
         """
-        pass
+        active_user = get_active_user()
+        data = (f"User ID: {active_user['id']}\n"
+                f"First Name: {active_user['firstname']}\n"
+                f"Last Name: {active_user['lastname']}\n"
+                f"Email: {active_user['email']}\n"
+                f"Registered: {active_user['created_at'].strftime('%Y-%m-%d %H:%M:%S')}")
+        print(data)
+        return True
