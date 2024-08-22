@@ -13,6 +13,10 @@ class User:
         self.create_rent_table()
 
     @log_decorator
+    def get_data(self, query, params=None):
+        pass
+
+    @log_decorator
     def rent_products(self, product_name: str, price: int):
         self.create_rent_table()
         active_user = get_active_user()
@@ -74,16 +78,32 @@ class User:
                     f"Status: {'Inactive' if product['status'] else 'Active'}\n"
                     )
             print(data)
-
         return True
 
     @log_decorator
     def my_inactive_rent(self):
-        pass
+        active_user = get_active_user()
+        query = '''
+                SELECT * FROM RENTALS
+                WHERE USER_EMAIL = %s and STATUS = %s;
+                '''
+        params = (active_user['email'], True)
+        all_product = execute_query(query, params, fetch='all')
+        if not all_product:
+            print(f"You have no rent yet")
+            return True
+        for product in all_product:
+            data = (f"Rent ID: {product['id']}\nRent Product: {product['rent_product']}\n"
+                    f"Rent Time: {product['rent_time'].strftime('%Y-%m-%d %H:%M:%S')}\n"
+                    f"Status: {'Inactive' if product['status'] else 'Active'}\n"
+                    )
+            print(data)
+        return True
 
     @log_decorator
     def return_rent(self):
-        pass
+        self.my_active_rent()
+        rent_id: int = int(input("Enter rent ID: "))
 
     @log_decorator
     def profile(self):

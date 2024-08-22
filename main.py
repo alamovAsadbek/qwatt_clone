@@ -51,29 +51,26 @@ def user_menu():
         if user_input == 1:
             print('\nHOME -> BICYCLE RENTAL\n')
             user.rent_bicycle()
-            user_menu()
         elif user_input == 2:
             print('\nHOME -> POWER BANK RENTAL\n')
             user.rent_power_bank()
-            user_menu()
         elif user_input == 3:
             print('\nHOME -> MY ACTIVE RENTS\n')
             user.my_active_rent()
-            user_menu()
         elif user_input == 4:
             print('\nHOME -> MY INACTIVE RENTS\n')
-            pass
+            user.my_inactive_rent()
         elif user_input == 5:
             print('\nHOME -> Return of rent\n')
-            
+            user.return_rent()
         elif user_input == 6:
             print('\nHOME -> PROFILE\n')
-            pass
+            user.profile()
         elif user_input == 7:
             auth.logout()
             print("Logged out")
-            auth_menu()
-
+            return auth_menu()
+        user_menu()
     except Exception as e:
         print(f'Error: {e}')
         user_menu()
