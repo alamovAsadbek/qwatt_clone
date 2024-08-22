@@ -1,5 +1,6 @@
 from main_files.decorator.decorator_func import log_decorator
 from pages.page.auth import Auth
+from pages.roles.user.user import User
 
 
 @log_decorator
@@ -44,9 +45,11 @@ def user_menu():
     '''
     print(text)
     try:
+        user = User()
         user_input: int = int(input("Choose menu: "))
         if user_input == 1:
-            pass
+            user.create_rent_table()
+            user_menu()
         elif user_input == 2:
             pass
         elif user_input == 3:

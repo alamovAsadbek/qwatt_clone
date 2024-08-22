@@ -1,3 +1,5 @@
+from psycopg2 import sql
+
 from main_files.database.db_setting import Database
 from main_files.decorator.decorator_func import log_decorator
 
@@ -8,17 +10,16 @@ class User:
 
     @log_decorator
     def create_rent_table(self):
-        query='''
+        query = sql.SQL('''
         CREATE TABLE IF NOT EXISTS RENTALS (
         ID SERIAL PRIMARY KEY,
-        FIRSTNAME VARCHAR(255) NOT NULL,
-        LASTNAME VARCHAR(255) NOT NULL,
-        EMAIL VARCHAR(255) NOT NULL UNIQUE,
-        PASSWORD VARCHAR(256) NOT NULL,
-        IS_LOGIN BOOLEAN DEFAULT FALSE,
-        CREATED_AT TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        PRODUCT_ID SERIAL UNIQUE,
+        USER_EMAIL VARCHAR(255) NOT NULL,
+        RENT_PRODUCT VARCHAR(255) NOT NULL,
+        RENT_TIME DEFAULT CURRENT_TIMESTAMP,
+        STATUS BOOLEN NOT NULL DEFAULT FALSE,
         );
-        '''
+        ''')
         with self.__database as cursor:
             cursor.execute(query)
         return True
@@ -26,4 +27,5 @@ class User:
     # rent a bike
     @log_decorator
     def rent_bicycle(self):
-        pass
+        self.create_rent_table()
+

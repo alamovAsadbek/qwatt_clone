@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2 import sql
 from psycopg2.extras import DictCursor
 
 from main_files.database.config import config
@@ -67,5 +68,7 @@ def execute_query(query, params=None, fetch=None):
 
 @log_decorator
 def get_active_user():
-    query = '''SELECT * FROM users WHERE is_active=TRUE'''
+    query = sql.SQL('SELECT * FROM {} WHERE is_login=TRUE;').format(
+        sql.Identifier('users')
+    )
     return execute_query(query, fetch='one')
