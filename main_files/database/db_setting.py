@@ -40,6 +40,12 @@ class Database:
         self.execute(query, params)
         return self.cursor.fetchone()
 
+    @log_decorator
+    def create_database(self, database_name: str = 'qwatt'):
+        query = 'CREATE DATABASE IF NOT EXISTS {}'.format(database_name)
+        self.execute(query=query)
+        return True
+
 
 def execute_query(query, params=None, fetch=None):
     try:
