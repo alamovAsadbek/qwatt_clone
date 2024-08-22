@@ -154,7 +154,10 @@ class User:
         print(data)
         card_number = int(input("Enter card number: ").strip())
         print(f'{price} uzs were paid from the {card_number} plastic card')
-
+        query = '''UPDATE rentals SET status=%s WHERE id=%s;'''
+        params = (True, rent_id)
+        with self.__database as cursor:
+            cursor.execute(query, params)
         return True
 
     @log_decorator
