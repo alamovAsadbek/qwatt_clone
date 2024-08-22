@@ -40,8 +40,9 @@ def user_menu():
 2. Power bank rental
 3. My active rents
 4. My inactive rents
-5. Profile
-6. Logout
+5. Return of rent
+6. Profile
+7. Logout
     '''
     print(text)
     try:
@@ -63,9 +64,12 @@ def user_menu():
             print('\nHOME -> MY INACTIVE RENTS\n')
             pass
         elif user_input == 5:
+            print('\nHOME -> Return of rent\n')
+            
+        elif user_input == 6:
             print('\nHOME -> PROFILE\n')
             pass
-        elif user_input == 6:
+        elif user_input == 7:
             auth.logout()
             print("Logged out")
             auth_menu()
