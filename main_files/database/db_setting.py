@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2.extras import DictCursor
 
 from main_files.database.config import config
 from main_files.decorator.decorator_func import log_decorator
@@ -8,42 +9,47 @@ class Database:
     def __init__(self):
         self.connection = None
         self.cursor = None
-        print(config())
 
     def __enter__(self):
-        self.connection = psycopg2.connect(**config())
-        self.cursor = self.connection.cursor()
-        return self
+        try:
+            conn_params = config()
+            self.connection = psycopg2.connect(config())
+            self.cursor = self.connection.cursor(cursor_factory=DictCursor)
+            return self
+        except Exception as e:
+            print(f"Connection or cursor creation failed: {e}")
+            raise  # Re-raise the exception to propagate it
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if exc_tb is not None:
-            self.connection.rollback()
-        else:
-            self.connection.commit()
-
-        if self.connection is not None:
-            self.connection.close()
-
-        if self.cursor is not None:
+        if self.cursor:
             self.cursor.close()
+        if self.connection:
+            if exc_tb is not None:
+                self.connection.rollback()
+            else:
+                self.connection.commit()
+            self.connection.close()
 
     @log_decorator
     def execute(self, query, params=None):
-        """execute the query(INSERT, UPDATE, DELETE)"""
-        self.cursor.execute(query, params)
-        self.connection.commit()
+        """Execute the query (INSERT, UPDATE, DELETE)"""
+        if self.cursor:
+            self.cursor.execute(query, params)
+            self.connection.commit()
 
     @log_decorator
     def fetchall(self, query, params=None):
-        """fetch many row from the database"""
-        self.cursor.execute(query, params)
-        return self.cursor.fetchall()
+        """Fetch many rows from the database"""
+        if self.cursor:
+            self.cursor.execute(query, params)
+            return self.cursor.fetchall()
 
     @log_decorator
     def fetchone(self, query, params=None):
-        """fetch only one row from the database"""
-        self.cursor.execute(query, params)
-        return self.cursor.fetchone()
+        """Fetch only one row from the database"""
+        if self.cursor:
+            self.cursor.execute(query, params)
+            return self.cursor.fetchone()
 
 
 @log_decorator

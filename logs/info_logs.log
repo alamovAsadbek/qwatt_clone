@@ -1,9 +1,0 @@
-08/22/2024 18:37:30 - main_files.decorator.decorator_func - ERROR - Function execute: 'NoneType' object has no attribute 'execute'
-Traceback (most recent call last):
-  File "D:\Code\NAJOT TALIM\HOMEWORK\Lesson44\pythonProject\main_files\decorator\decorator_func.py", line 21, in wrapper
-    result = func(*args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\Code\NAJOT TALIM\HOMEWORK\Lesson44\pythonProject\main_files\database\db_setting.py", line 33, in execute
-    self.cursor.execute(query, params)
-    ^^^^^^^^^^^^^^^^^^^
-AttributeError: 'NoneType' object has no attribute 'execute'
