@@ -15,8 +15,12 @@ def auth_menu():
         user_input: int = int(input("Choose menu: "))
         if user_input == 1:
             auth.register()
+            auth_menu()
         elif user_input == 2:
-            pass
+            if auth.login():
+                user_menu()
+            else:
+                auth_menu()
         elif user_input == 3:
             pass
         else:

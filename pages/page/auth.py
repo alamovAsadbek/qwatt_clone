@@ -1,8 +1,6 @@
 import datetime
 import hashlib
 
-from psycopg2 import sql
-
 from main_files.database.db_setting import Database, execute_query
 from main_files.decorator.decorator_func import log_decorator
 
@@ -14,7 +12,19 @@ class Auth:
 
     @log_decorator
     def login(self):
-        pass
+        email: str = input("Email: ").strip()
+        password: str = hashlib.sha256(input("Password: ").strip().encode('utf-8')).hexdigest()
+        user = execute_query("SELECT * FROM users WHERE EMAIL=%s", (email,), fetch='one')
+        if user is None:
+            print("Login failed")
+            return False
+        elif user['password'] == password and user['email'] == email:
+            query = 'UPDATE users SET IS_LOGIN=%s WHERE EMAIL=%s;'
+            params = (True, email)
+            with self.__database as db:
+                db.execute(query, params)
+                return True
+        return False
 
     @log_decorator
     def create_user_table(self):
@@ -31,22 +41,19 @@ class Auth:
         '''
         with self.__database as cursor:
             cursor.execute(query)
-        return None
+        return True
 
     @log_decorator
     def register(self):
         self.create_user_table()
-        query = sql.SQL("SELECT * FROM {};").format(sql.Identifier('users'))
-        print(execute_query(query))
-        print("Table created successfully")
         first_name: str = input("First Name: ")
         last_name: str = input("Last Name: ")
         email: str = input("Email: ")
-        password: str = hashlib.md5(input("Password: ").strip().encode('utf-8')).hexdigest()
-        confirm_password: str = hashlib.md5(input("Confirm password: ").strip().encode('utf-8')).hexdigest()
+        password: str = hashlib.sha256(input("Password: ").strip().encode('utf-8')).hexdigest()
+        confirm_password: str = hashlib.sha256(input("Confirm password: ").strip().encode('utf-8')).hexdigest()
         while password != confirm_password:
             print("Passwords do not match")
-            password: str = hashlib.md5(input("Password: ").strip().encode('utf-8')).hexdigest()
+            password: str = hashlib.sha256(input("Password: ").strip().encode('utf-8')).hexdigest()
             confirm_password: str = hashlib.md5(input("Confirm password: ").strip().encode('utf-8')).hexdigest()
         query = '''
                INSERT INTO "users" (FIRSTNAME, LASTNAME, EMAIL, PASSWORD)
@@ -61,7 +68,4 @@ class Auth:
 
     @log_decorator
     def logout(self):
-        email: str = input("Email: ").strip()
-        password: str = hashlib.md5(input("Password: ").strip().encode('utf-8')).hexdigest()
-        user = execute_query("SELECT * FROM users WHERE EMAIL=%s", email)
-        print(user)
+        pass
