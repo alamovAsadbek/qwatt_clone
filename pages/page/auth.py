@@ -12,6 +12,10 @@ class Auth:
 
     @log_decorator
     def login(self):
+        """
+                Authenticate a user by checking their email and password.
+                Updates the user's login status to True upon successful login.
+        """
         email: str = input("Email: ").strip()
         password: str = hashlib.sha256(input("Password: ").strip().encode('utf-8')).hexdigest()
         user = execute_query("SELECT * FROM users WHERE EMAIL=%s", (email,), fetch='one')
@@ -29,6 +33,9 @@ class Auth:
 
     @log_decorator
     def create_user_table(self):
+        """
+               Create the users table in the database if it does not already exist.
+        """
         query = '''
         CREATE TABLE IF NOT EXISTS USERS (
         ID SERIAL PRIMARY KEY,
@@ -46,6 +53,9 @@ class Auth:
 
     @log_decorator
     def register(self):
+        """
+                Register a new user by adding their details to the users table.
+        """
         self.create_user_table()
         first_name: str = input("First Name: ")
         last_name: str = input("Last Name: ")
@@ -69,6 +79,9 @@ class Auth:
 
     @log_decorator
     def logout(self):
+        """
+                Set the login status of all users to False (i.e., log out all users).
+        """
         query = 'UPDATE users SET IS_LOGIN=FALSE;'
         with self.__database as db:
             db.execute(query)

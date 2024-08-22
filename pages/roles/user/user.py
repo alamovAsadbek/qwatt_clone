@@ -18,6 +18,12 @@ class User:
 
     @log_decorator
     def rent_products(self, product_name: str, price: int):
+        """
+                Inserts a new record into the RENTALS table to rent a product.
+
+                :param product_name: The name of the product being rented.
+                :param price: The price of the rental.
+        """
         self.create_rent_table()
         active_user = get_active_user()
         query = sql.SQL('''
@@ -30,6 +36,10 @@ class User:
 
     @log_decorator
     def create_rent_table(self):
+        """
+                Creates the RENTALS table in the database if it does not already exist.
+                The table is used to store rental records including product ID, rental price, user email, and rental status.
+        """
         query = sql.SQL('''
         CREATE TABLE IF NOT EXISTS RENTALS (
         ID SERIAL PRIMARY KEY,
@@ -48,6 +58,9 @@ class User:
     # rent a bike
     @log_decorator
     def rent_bicycle(self):
+        """
+                Rents a bicycle and prints a confirmation message with the rental price and current date/time.
+        """
         price = 500
         self.rent_products(product_name='bicycle', price=price)
         print(f"You rented a bike at {self.__date_now}, The price for 1 minute is {price} uzs")
@@ -55,6 +68,9 @@ class User:
 
     @log_decorator
     def rent_power_bank(self):
+        """
+                Rents a power bank by calling the rent_products method with a fixed price.
+        """
         price = 200
         self.rent_products(product_name='power_bank', price=price)
         print(f"You rented a power bank at {self.__date_now}, The price for 1 minute is {price} uzs")
@@ -62,6 +78,10 @@ class User:
 
     @log_decorator
     def my_active_rent(self):
+        """
+               Retrieves and displays all active rental records for the current user.
+               Active rentals are those with a STATUS of False.
+        """
         active_user = get_active_user()
         query = '''
         SELECT * FROM RENTALS
@@ -82,6 +102,10 @@ class User:
 
     @log_decorator
     def my_inactive_rent(self):
+        """
+                Retrieves and displays all inactive rental records for the current user.
+                Inactive rentals are those with a STATUS of True.
+        """
         active_user = get_active_user()
         query = '''
                 SELECT * FROM RENTALS
@@ -102,9 +126,17 @@ class User:
 
     @log_decorator
     def return_rent(self):
+        """
+                Allows the user to return a rented product by entering the rental ID.
+                This method currently only displays active rentals and prompts for a rental ID.
+        """
         self.my_active_rent()
         rent_id: int = int(input("Enter rent ID: "))
 
     @log_decorator
     def profile(self):
+        """
+                Displays or manages user profile information.
+                This method is currently a placeholder and does not perform any actions.
+        """
         pass
