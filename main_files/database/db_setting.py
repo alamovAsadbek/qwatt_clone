@@ -1,5 +1,7 @@
 import psycopg2
 
+from main_files.decorator.decorator_func import log_decorator
+
 
 class Database:
     def __init__(self):
@@ -23,14 +25,17 @@ class Database:
         if self.cursor is not None:
             self.cursor.close()
 
+    @log_decorator
     def execute(self, query, params=None):
         self.cursor.execute(query, params)
         self.connection.commit()
 
+    @log_decorator
     def fetchall(self, query, params=None):
         self.execute(query, params)
         return self.cursor.fetchall()
 
+    @log_decorator
     def fetchone(self, query, params=None):
         self.execute(query, params)
         return self.cursor.fetchone()
@@ -47,8 +52,3 @@ def execute_query(query, params=None, fetch=None):
                 db.execute(query, params)
     except Exception as e:
         print(f"Exception occurred while executing: {e}")
-
-# query_ = 'INSERT INTO users (first_name, last_name, gmail, gender, password) VALUES (%s, %s, %s, %s, %s);'
-# params_ = ('John', 'Doe', 'gmail@gamil.com', 'male', 'password',)
-# execute_query(query_, params_)
-
