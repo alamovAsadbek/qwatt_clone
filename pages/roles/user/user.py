@@ -34,7 +34,8 @@ class User:
     def create_rent_table(self):
         """
                 Creates the RENTALS table in the database if it does not already exist.
-                The table is used to store rental records including product ID, rental price, user email, and rental status.
+                The table is used to store rental records including product ID, rental price, user email, and rental
+                status.
         """
         query = sql.SQL('''
         CREATE TABLE IF NOT EXISTS RENTALS (
